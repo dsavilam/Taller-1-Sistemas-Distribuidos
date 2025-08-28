@@ -1,0 +1,28 @@
+Terminal 1 — Operador 1
+-----------------------
+Windows:
+    python operador.py --port 6001 --name operador-1 --delay 0.3
+macOS/Linux:
+    python3 operador.py --port 6001 --name operador-1 --delay 0.3
+
+Terminal 2 — Operador 2
+-----------------------
+Windows:
+    python operador.py --port 6002 --name operador-2 --delay 0.3
+macOS/Linux:
+    python3 operador.py --port 6002 --name operador-2 --delay 0.3
+
+Terminal 3 — Servidor de Cálculo (Coordinador)
+----------------------------------------------
+Windows:
+    python servidorCalculo.py --port 5000 --operadores 127.0.0.1:6001 127.0.0.1:6002
+macOS/Linux:
+    python3 servidorCalculo.py --port 5000 --operadores 127.0.0.1:6001 127.0.0.1:6002
+
+Terminal 4 — Cliente
+--------------------
+Windows:
+    python cliente.py
+macOS/Linux:
+    python3 cliente.py
+
