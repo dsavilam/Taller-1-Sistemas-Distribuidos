@@ -61,7 +61,6 @@ class Coordinador:
                     operador.vivo = False
                 print(f"[{self._ahora()}][salud] {operador.nombre} DOWN")
 
-                
     def trabajadores_vivos(self) -> List[InfoTrabajador]:
         """Retorna la lista de operadores actualmente marcados como vivos."""
         vivos = []
@@ -93,6 +92,10 @@ class Coordinador:
         id_tarea = str(uuid.uuid4())
         print(f"[coord] Nueva tarea {id_tarea} con n={tam_total} (chunks={len(partes)})")
 
+        # --- imprimir los chunks a resolver ---
+        for idx, a_chunk, b_chunk in partes:
+            print(f"[coord] Tarea {id_tarea} → chunk {idx}: A={a_chunk}  B={b_chunk}")
+
         resultados_por_parte: Dict[int, List[int]] = {}
 
         def intentar_asignar(indice_parte: int, preferido: Optional[InfoTrabajador] = None) -> bool:
@@ -108,7 +111,7 @@ class Coordinador:
                     respuesta = self.enviar_subtarea(op, id_tarea, indice_parte, sub_izq, sub_der)
                     if respuesta.get("type") == "result" and respuesta.get("idx") == indice_parte:
                         resultados_por_parte[indice_parte] = respuesta["result"]
-                        print(f"[coord] Chunk {indice_parte} resuelto por {op.nombre}")
+                        print(f"[coord] Chunk {indice_parte} resuelto por {op.nombre} -> {respuesta['result']}")
                         return True
                     else:
                         print(f"[coord] Respuesta inesperada de {op.nombre}: {respuesta}")
@@ -135,7 +138,10 @@ class Coordinador:
                         f"No fue posible completar el chunk {indice_parte}; hay operadores caídos o sin respuesta."
                     )
 
-        return resultados_por_parte[0] + resultados_por_parte[1]
+        resultado_final = resultados_por_parte[0] + resultados_por_parte[1]
+        # --- imprimir solución final ---
+        print(f"[coord] Tarea {id_tarea} RESUELTA → resultado final = {resultado_final}")
+        return resultado_final
 
     def atender_cliente(self, conexion: socket.socket, direccion):
         """Atiende una solicitud del cliente ('sum_arrays' o 'health') y responde."""
