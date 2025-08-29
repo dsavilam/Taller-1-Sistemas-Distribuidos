@@ -26,6 +26,9 @@ def atender_conexion(conexion: socket.socket, direccion, nombre_operador: str, d
             indice_parte = mensaje.get("idx", 0)
             identificador_tarea = mensaje.get("task_id", "?")
 
+        
+            print(f"[{nombre_operador}] Va a resolver el chunk idx={indice_parte} id task={identificador_tarea} A={subarreglo_izquierdo} B={subarreglo_derecho}")
+
             if delay_artificial_seg > 0:
                 time.sleep(delay_artificial_seg)
 
@@ -79,3 +82,4 @@ if __name__ == "__main__":
     ap.add_argument("--delay", type=float, default=0.0, help="delay artificial por solicitud (segundos)")
     args = ap.parse_args()
     servir(args.host, args.port, args.name, args.delay)
+
